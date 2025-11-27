@@ -1,0 +1,6 @@
+
+---
+
+## 📌 **3. requirements.txt**  
+**→ Các thư viện cần để build tài liệu**
+
