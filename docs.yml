@@ -1,0 +1,40 @@
+# ====================================
+# Workflow CI/CD – Build & Deploy Docs
+# ====================================
+
+name: Build & Deploy Documentation
+
+# Chạy khi có push lên nhánh chính (main)
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Máy ảo GitHub dùng để chạy CI/CD
+
+    steps:
+      # Bước 1: Tải code từ repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Bước 2: Cài Python
+      - name: Cài đặt Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      # Bước 3: Cài thư viện cần thiết
+      - name: Cài thư viện MkDocs
+        run: pip install -r requirements.txt
+
+      # Bước 4: Build tài liệu
+      - name: Build tài liệu
+        run: mkdocs build
+
+      # Bước 5: Deploy tài liệu lên GitHub Pages
+      - name: Deploy lên GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
